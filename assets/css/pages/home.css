@@ -81,7 +81,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .financing-banner__text {
@@ -158,11 +158,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 220px;
 }
 
 .financing-banner__bank-img {
-  max-width: 320px;
-  width: 100%;
+  width: 220px;
   height: auto;
   border-radius: var(--radius-lg);
   display: block;
@@ -170,6 +170,21 @@
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .financing-banner__content {
+    flex-wrap: wrap;
+  }
+
+  .financing-banner__partner {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .financing-banner__bank-img {
+    width: 260px;
+  }
+}
+
 @media (max-width: 768px) {
   .financing-banner {
     padding: 3rem 0;
