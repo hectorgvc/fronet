@@ -55,3 +55,164 @@
   border-radius: var(--radius-lg);
   display: block;
 }
+
+/* ----- FINANCING BANNER ----- */
+.financing-banner {
+  position: relative;
+  background-image: url('../img/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 4.5rem 0;
+  overflow: hidden;
+}
+
+.financing-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10,15,40,0.88) 0%, rgba(27,43,138,0.75) 60%, rgba(0,80,60,0.65) 100%);
+  z-index: 0;
+}
+
+.financing-banner__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.financing-banner__text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.financing-banner__text .tag--white {
+  margin-bottom: 1rem;
+  display: inline-flex;
+}
+
+.financing-banner__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.financing-banner__title span {
+  color: #4ADE80;
+}
+
+.financing-banner__text p {
+  color: rgba(255,255,255,0.82);
+  font-size: 1rem;
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+}
+
+.financing-banner__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn--financing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--white);
+  color: var(--gray-900);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.75rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--white);
+  transition: all var(--transition);
+}
+
+.btn--financing:hover {
+  background: transparent;
+  color: var(--white);
+}
+
+.btn--financing svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: #25D366;
+}
+
+.btn--financing:hover svg {
+  fill: var(--white);
+}
+
+.financing-banner__partner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.financing-banner__bank {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.financing-banner__bank-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.financing-banner__bank-logo span {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.05em;
+}
+
+.financing-banner__bank p {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .financing-banner {
+    padding: 3rem 0;
+  }
+
+  .financing-banner__content {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .financing-banner__text p {
+    margin-inline: auto;
+  }
+
+  .financing-banner__actions {
+    justify-content: center;
+  }
+
+  .financing-banner__title {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+}
