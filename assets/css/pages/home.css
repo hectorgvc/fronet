@@ -160,36 +160,13 @@
   flex-shrink: 0;
 }
 
-.financing-banner__bank {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+.financing-banner__bank-img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-lg);
-  padding: 2rem 2.5rem;
-  text-align: center;
-  backdrop-filter: blur(8px);
-}
-
-.financing-banner__bank-logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.financing-banner__bank-logo span {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--white);
-  letter-spacing: 0.05em;
-}
-
-.financing-banner__bank p {
-  color: rgba(255,255,255,0.75);
-  font-size: 0.85rem;
-  line-height: 1.5;
-  margin: 0;
+  display: block;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
 }
 
 /* Responsive */
