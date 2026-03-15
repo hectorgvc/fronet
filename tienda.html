@@ -3,25 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tienda | Fronet Tecnología SRL — Equipos y Accesorios en Santo Domingo</title>
-  <meta name="description" content="Compra equipos de cómputo, impresoras, accesorios y más en Fronet Tecnología SRL. Productos de calidad con garantía en Santo Domingo, Rep. Dom." />
+  <title>Tienda | Fronet Tecnología SRL — Computadoras, Impresoras y Más</title>
+  <meta name="description" content="Tienda online de Fronet Tecnología SRL. Compra computadoras, impresoras, mobiliario de oficina y consumibles al mejor precio en Santo Domingo, Rep. Dom." />
   <link rel="canonical" href="https://www.fronetrd.com/tienda.html" />
-  <meta property="og:title" content="Tienda | Fronet Tecnología SRL" />
-  <meta property="og:description" content="Equipos de cómputo, impresoras, redes y accesorios con garantía en Santo Domingo." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Tienda | Fronet Tecnología SRL — Computadoras, Impresoras y Más" />
+  <meta property="og:description" content="Catálogo completo de equipos tecnológicos, impresoras, mobiliario y consumibles con garantía en Santo Domingo." />
   <meta property="og:image" content="https://www.fronetrd.com/assets/img/og-image.jpg" />
   <meta property="og:locale" content="es_DO" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.fronetrd.com/tienda.html" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
   <link rel="stylesheet" href="assets/css/pages/tienda.css" />
 </head>
 <body>
 
+  <!-- ═══ Announcement Bar ═══ -->
   <div class="announcement-bar">
     <div class="container">
       <span>Garantía en todos los productos · Envío a todo el país</span>
@@ -32,6 +44,7 @@
     </div>
   </div>
 
+  <!-- ═══ Navbar ═══ -->
   <nav class="navbar" id="navbar" aria-label="Navegación principal">
     <div class="container">
       <a href="index.html" class="navbar__logo" aria-label="Inicio Fronet">
@@ -44,7 +57,7 @@
         <div class="navbar__dropdown">
           <a class="navbar__link active" href="tienda.html">Tienda</a>
           <div class="navbar__dropdown-menu">
-            <a href="tienda.html">Tienda</a>
+            <a href="tienda.html">Catálogo completo</a>
             <a href="impresoras.html">Impresoras</a>
             <a href="ofertas.html">Ofertas</a>
           </div>
@@ -53,7 +66,10 @@
         <a class="navbar__link" href="clientes.html">Clientes</a>
       </div>
       <div class="navbar__actions">
-        <a class="navbar__phone" href="tel:+18293983616">+1 829-398-3616</a>
+        <a class="navbar__phone" href="tel:+18293983616">
+          <i data-lucide="phone" class="icon-16"></i>
+          +1 829-398-3616
+        </a>
         <a class="btn btn--primary btn--sm" href="soporte.html">Soporte Técnico</a>
         <button class="navbar__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -62,8 +78,11 @@
     </div>
   </nav>
 
+  <!-- ═══ Mobile Nav ═══ -->
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <button class="mobile-nav__close" id="navClose" aria-label="Cerrar menú">✕</button>
+    <button class="mobile-nav__close" id="navClose" aria-label="Cerrar menú">
+      <i data-lucide="x" class="icon-28"></i>
+    </button>
     <a class="mobile-nav__link" href="index.html">Inicio</a>
     <a class="mobile-nav__link" href="nosotros.html">Nosotros</a>
     <a class="mobile-nav__link" href="servicios.html">Servicios</a>
@@ -80,74 +99,217 @@
 
   <main>
 
-    <section class="page-hero">
-      <div class="container">
-        <nav class="breadcrumb" aria-label="Ruta de navegación">
-          <a href="index.html">Inicio</a>
-          <span aria-hidden="true">›</span>
-          <span class="current">Tienda</span>
-        </nav>
-        <h1>Tienda</h1>
-        <p>Equipos, accesorios y soluciones tecnológicas con garantía y soporte incluido</p>
-      </div>
-    </section>
-
-    <!-- FILTROS DE CATEGORÍA -->
-    <section style="background:#fff; border-bottom:1px solid var(--gray-200); position:sticky; top:70px; z-index:100;">
-      <div class="container">
-        <div style="display:flex; gap:0.5rem; overflow-x:auto; padding:1rem 0; scrollbar-width:none;" role="tablist" aria-label="Categorías de productos">
-          <button class="filter-btn filter-btn--active" data-filter="all" role="tab" aria-selected="true">Todos</button>
-          <button class="filter-btn" data-filter="computadoras" role="tab" aria-selected="false">Computadoras</button>
-          <button class="filter-btn" data-filter="impresoras" role="tab" aria-selected="false">Impresoras</button>
-          <button class="filter-btn" data-filter="redes" role="tab" aria-selected="false">Redes</button>
-          <button class="filter-btn" data-filter="camaras" role="tab" aria-selected="false">Cámaras</button>
-          <button class="filter-btn" data-filter="accesorios" role="tab" aria-selected="false">Accesorios</button>
-          <button class="filter-btn" data-filter="ups" role="tab" aria-selected="false">UPS / Reguladores</button>
+    <!-- ═══ Tienda Hero ═══ -->
+    <section class="tienda-hero">
+      <div class="container" style="text-align:center">
+        <span class="tag tag--navy">Catálogo de productos</span>
+        <h1 class="display-lg text-navy">Todo lo que tu oficina necesita</h1>
+        <p class="body-lg text-muted">Computadoras, impresoras, mobiliario y consumibles al mejor precio</p>
+        <div class="tienda-search">
+          <input type="search" id="tiendaSearch" placeholder="Buscar impresoras, laptops, tóner..." autocomplete="off" />
+          <button type="button" aria-label="Buscar">
+            <i data-lucide="search" class="icon-18" style="display:inline;vertical-align:middle;margin-right:4px"></i>
+            Buscar
+          </button>
+          <div class="tienda-search__dropdown" id="searchDropdown"></div>
         </div>
       </div>
     </section>
 
-    <!-- PRODUCTOS -->
-    <section class="section bg-gray-50" id="productos">
+    <!-- ═══ Category Nav (sticky) ═══ -->
+    <nav class="category-nav" id="categoryNav" aria-label="Categorías de productos">
+      <div class="container">
+        <div class="category-nav__inner">
+          <a href="#impresoras" class="category-nav__item active">
+            <i data-lucide="printer" class="icon-18"></i> Impresoras & Escanners
+          </a>
+          <a href="#computadoras" class="category-nav__item">
+            <i data-lucide="monitor" class="icon-18"></i> Computadoras
+          </a>
+          <a href="#mobiliario" class="category-nav__item">
+            <i data-lucide="armchair" class="icon-18"></i> Mobiliario
+          </a>
+          <a href="#consumibles" class="category-nav__item">
+            <i data-lucide="mouse" class="icon-18"></i> Consumibles & Periféricos
+          </a>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 1: Impresoras & Escanners
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="impresoras">
       <div class="container">
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;" class="fade-up">
-          <p style="color:var(--gray-600); font-size:0.9rem;"><span id="product-count">12</span> productos encontrados</p>
-          <div style="display:flex; align-items:center; gap:0.75rem;">
-            <label for="sort-select" style="font-size:0.85rem; color:var(--gray-600);">Ordenar:</label>
-            <select id="sort-select" class="form-input" style="padding:0.4rem 0.75rem; font-size:0.85rem; width:auto;">
-              <option value="default">Destacados</option>
-              <option value="price-asc">Precio: menor a mayor</option>
-              <option value="price-desc">Precio: mayor a menor</option>
-              <option value="name">Nombre A–Z</option>
-            </select>
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#1B2B8A">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="printer" class="icon-16"></i> Categoría principal</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Impresoras & Escanners</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Las mejores marcas para tu oficina</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-impresoras">0</span> productos</p>
           </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-impresora.png"
+            alt="Impresora destacada Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
         </div>
 
-        <div class="products-grid" id="productsGrid">
-          <!-- Products generated dynamically by JS -->
-        </div> 
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="impresoras">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="laser">Láser</button>
+          <button class="filter-pill" data-filter="tinta">Tinta</button>
+          <button class="filter-pill" data-filter="continuo">Sistema Continuo</button>
+          <button class="filter-pill" data-filter="scanner">Escanners</button>
+          <button class="filter-pill" data-filter="multifuncional">Multifuncionales</button>
+        </div>
 
-        <!-- Sin resultados -->
-        <div id="no-results" style="display:none; text-align:center; padding:4rem 0;" aria-live="polite">
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-bottom:1rem;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <h3 style="color:var(--gray-500); font-family:var(--font-display); font-size:1.5rem;">No hay productos en esta categoría</h3>
-          <p style="color:var(--gray-400); margin-top:0.5rem;">Contáctanos para consultar disponibilidad.</p>
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-impresoras">
+          <div class="products-loading">Cargando productos...</div>
         </div>
 
       </div>
     </section>
 
-    <!-- NOTA COTIZACIÓN -->
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 2: Computadoras & Tecnología
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="computadoras">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#2C3347">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="monitor" class="icon-16"></i> Alto rendimiento</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Computadoras & Tecnología</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Equipos de alto rendimiento para profesionales</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-computadoras">0</span> productos</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-laptop.png"
+            alt="Laptop destacada Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="computadoras">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="laptop">Laptops</button>
+          <button class="filter-pill" data-filter="desktop">Computadoras</button>
+          <button class="filter-pill" data-filter="monitor">Monitores</button>
+          <button class="filter-pill" data-filter="servidor">Servidores</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-computadoras">
+          <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 3: Mobiliario de Oficina
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="mobiliario">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#F0F2F7">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#1B2B8A"><i data-lucide="armchair" class="icon-16"></i> Confort profesional</span>
+            <h2 class="category-banner__title" style="color:#1B2B8A">Mobiliario de Oficina</h2>
+            <p class="category-banner__subtitle" style="color:#1B2B8A">Espacios de trabajo cómodos y funcionales</p>
+            <p class="category-banner__count" style="color:#1B2B8A"><span id="count-mobiliario">0</span> productos</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-silla.png"
+            alt="Silla ergonómica destacada Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="mobiliario">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="silla">Sillas</button>
+          <button class="filter-pill" data-filter="escritorio">Escritorios</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-mobiliario">
+          <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 4: Consumibles & Periféricos
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="consumibles">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#00C2E0">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="mouse" class="icon-16"></i> Accesorios originales</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Consumibles & Periféricos</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Tinta, tóner y accesorios originales</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-consumibles">0</span> productos</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-toner.png"
+            alt="Tóner destacado Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="consumibles">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="toner">Tóner e Inks</button>
+          <button class="filter-pill" data-filter="periferico">Periféricos</button>
+          <button class="filter-pill" data-filter="audicular">Audiculares</button>
+          <button class="filter-pill" data-filter="accesorio">Accesorios</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-consumibles">
+          <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ═══ Nota Cotización ═══ -->
     <section class="section" style="padding-top:0;">
       <div class="container">
         <div style="background:rgba(0,194,224,0.06); border:1px solid rgba(0,194,224,0.2); border-radius:var(--radius-lg); padding:2rem; display:flex; gap:1.5rem; align-items:flex-start;" class="fade-up">
           <div style="color:var(--cyan); flex-shrink:0; margin-top:0.2rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <i data-lucide="info" class="icon-28"></i>
           </div>
           <div>
             <h3 style="font-family:var(--font-display); font-size:1.2rem; font-weight:700; color:var(--navy); margin-bottom:0.5rem;">¿No encuentras lo que buscas?</h3>
-            <p style="color:var(--gray-600); font-size:0.95rem; margin:0;">Contáctanos directamente. Tenemos acceso a una amplia gama de productos tecnológicos y podemos conseguir equipos específicos según tus necesidades. Los precios mostrados son referenciales y pueden variar según disponibilidad.</p>
+            <p style="color:var(--gray-400); font-size:0.95rem; margin:0;">Contáctanos directamente. Tenemos acceso a una amplia gama de productos tecnológicos y podemos conseguir equipos específicos según tus necesidades. Los precios mostrados son referenciales y pueden variar según disponibilidad.</p>
             <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.25rem;">
               <a href="https://wa.me/18293983616" target="_blank" rel="noopener" class="btn btn--primary btn--sm">Consultar por WhatsApp</a>
               <a href="contacto.html" class="btn btn--outline btn--sm">Formulario de contacto</a>
@@ -157,7 +319,7 @@
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- ═══ CTA Soporte ═══ -->
     <section class="cta-soporte fade-up">
       <div class="container">
         <div>
@@ -173,6 +335,50 @@
 
   </main>
 
+
+  <!-- ═══ Carrito Overlay ═══ -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- ═══ Carrito Sidebar ═══ -->
+  <aside class="cart-sidebar" id="cartSidebar" aria-label="Carrito de compras">
+    <div class="cart-sidebar__header">
+      <span>🛒 Mi Pedido</span>
+      <button class="cart-sidebar__close" id="btnCerrarCarrito" aria-label="Cerrar carrito">
+        <i data-lucide="x" class="icon-20"></i>
+      </button>
+    </div>
+    <div class="cart-sidebar__items" id="cartItems">
+      <!-- JS renderiza aquí -->
+    </div>
+    <div class="cart-sidebar__footer">
+      <div class="cart-subtotal">
+        <span>Subtotal estimado</span>
+        <span id="cartSubtotal">RD$ 0</span>
+      </div>
+      <button class="btn-whatsapp-cart" id="btnWhatsappCart">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
+          <path d="M19.11 17.21c-.27-.14-1.58-.78-1.82-.87-.24-.09-.41-.14-.59.14-.17.27-.68.87-.83 1.05-.15.18-.3.2-.57.07-.27-.14-1.13-.42-2.16-1.35-.8-.72-1.34-1.61-1.5-1.88-.16-.27-.02-.41.12-.55.12-.12.27-.3.41-.45.14-.15.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.59-1.43-.81-1.95-.21-.51-.43-.44-.59-.45h-.5c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.97 2.64 1.11 2.82c.14.18 1.91 2.92 4.63 4.1.65.28 1.16.45 1.56.58.66.21 1.26.18 1.74.11.53-.08 1.58-.65 1.8-1.29.22-.63.22-1.17.16-1.29-.07-.11-.24-.18-.5-.32z"/>
+          <path d="M16.01 3.2C8.98 3.2 3.29 8.89 3.29 15.91c0 2.48.71 4.9 2.05 6.97L3 29l6.3-2.29c1.99 1.09 4.24 1.66 6.71 1.66h.01c7.02 0 12.71-5.69 12.71-12.71S23.04 3.2 16.01 3.2zm0 22.93h-.01c-2.1 0-4.16-.56-5.97-1.62l-.43-.25-3.74 1.36 1.39-3.65-.28-.44a10.2 10.2 0 0 1-1.58-5.46c0-5.62 4.58-10.2 10.21-10.2 2.72 0 5.28 1.06 7.2 2.99a10.12 10.12 0 0 1 2.99 7.2c0 5.62-4.58 10.2-10.21 10.2z"/>
+        </svg>
+        Enviar pedido por WhatsApp
+      </button>
+      <button class="btn btn--outline" style="width:100%;margin-top:.75rem" onclick="cerrarCarrito()">
+        Continuar comprando
+      </button>
+      <p style="font-size:.75rem;color:var(--gray-400);text-align:center;margin-top:.75rem">
+        * Los precios están sujetos a disponibilidad. Un asesor confirmará tu pedido.
+      </p>
+    </div>
+  </aside>
+
+  <!-- ═══ Cart Float Button ═══ -->
+  <button class="cart-float" id="cartFloat" aria-label="Ver carrito de compras">
+    <i data-lucide="shopping-cart" class="icon-24"></i>
+    <span class="cart-float__count" id="cartCount" style="display:none">0</span>
+  </button>
+
+
+  <!-- ═══ Footer ═══ -->
   <footer class="footer">
     <div class="container">
       <div class="footer__brand">
@@ -182,17 +388,17 @@
         <p>Tu aliado en tecnología para soluciones empresariales y de hogar en Santo Domingo.</p>
         <div class="footer__social">
           <a href="https://web.facebook.com/profile.php?id=100089948240589" target="_blank" rel="noopener" aria-label="Facebook de Fronet">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <i data-lucide="facebook" class="icon-18"></i>
           </a>
           <a href="https://www.instagram.com/fronetrd/" target="_blank" rel="noopener" aria-label="Instagram de Fronet">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <i data-lucide="instagram" class="icon-18"></i>
           </a>
         </div>
       </div>
       <div>
         <h4>Tienda</h4>
         <div class="footer__links">
-          <a href="tienda.html">Tienda</a>
+          <a href="tienda.html">Catálogo completo</a>
           <a href="impresoras.html">Impresoras</a>
           <a href="ofertas.html">Ofertas</a>
         </div>
@@ -209,15 +415,11 @@
       <div>
         <h4>Contacto</h4>
         <div class="footer__contact-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <a href="tel:+18293983616">+1 829-398-3616</a>
-        </div>
-        <div class="footer__contact-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <i data-lucide="mail" class="icon-16"></i>
           <a href="mailto:info@fronetrd.com">info@fronetrd.com</a>
         </div>
         <div class="footer__contact-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <i data-lucide="map-pin" class="icon-16"></i>
           <span>Calle Penetración, Santo Domingo Norte</span>
         </div>
       </div>
@@ -234,6 +436,7 @@
     </div>
   </footer>
 
+  <!-- ═══ WhatsApp Float ═══ -->
   <a href="https://wa.me/18293983616" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chatear por WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
       <path d="M19.11 17.21c-.27-.14-1.58-.78-1.82-.87-.24-.09-.41-.14-.59.14-.17.27-.68.87-.83 1.05-.15.18-.3.2-.57.07-.27-.14-1.13-.42-2.16-1.35-.8-.72-1.34-1.61-1.5-1.88-.16-.27-.02-.41.12-.55.12-.12.27-.3.41-.45.14-.15.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.59-1.43-.81-1.95-.21-.51-.43-.44-.59-.45h-.5c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27s.97 2.64 1.11 2.82c.14.18 1.91 2.92 4.63 4.1.65.28 1.16.45 1.56.58.66.21 1.26.18 1.74.11.53-.08 1.58-.65 1.8-1.29.22-.63.22-1.17.16-1.29-.07-.11-.24-.18-.5-.32z"/>
@@ -241,112 +444,10 @@
     </svg>
   </a>
 
+  <!-- ═══ Scripts ═══ -->
+  <script src="assets/data/productos.js"></script>
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/forms.js"></script>
-    <script src="assets/js/products.js"></script>
-    <script>
-      let allProducts = products;
-      let filteredProducts = [...products];
+  <script src="assets/js/tienda.js"></script>
 
-      function renderProducts(productsToRender) {
-        const grid = document.getElementById('productsGrid');
-        const countEl = document.getElementById('product-count');
-        grid.innerHTML = '';
-
-        productsToRender.forEach(product => {
-          const article = document.createElement('article');
-          article.className = 'product-card fade-up';
-          article.dataset.category = product.category.toLowerCase();
-          article.dataset.price = product.price;
-          article.dataset.name = product.name.toLowerCase();
-
-          const discountPercent = product.discount || 0;
-          const originalPrice = product.originalPrice || product.price / (1 - discountPercent / 100);
-
-          article.innerHTML = `
-            <div class="product-card__badge">${product.ribbon || 'Disponible'}</div>
-            <div class="product-card__img">
-              <img src="${product.images}" alt="${product.name}" loading="lazy">
-            </div>
-            <div class="product-card__body">
-              <span class="product-card__category">${product.category}</span>
-              <h3 class="product-card__name">${product.name}</h3>
-              <p class="product-card__desc">${product.description.substring(0, 120)}...</p>
-              <div class="product-card__footer">
-                <div>
-                  ${discountPercent > 0 ? `<span class="product-card__price-old">RD$ ${originalPrice.toLocaleString()}</span>` : ''}
-                  <span class="product-card__price">RD$ ${product.price.toLocaleString()}</span>
-                </div>
-                <a href="https://wa.me/18293983616?text=Hola, me interesa ${encodeURIComponent(product.name)}" target="_blank" rel="noopener" class="btn btn--primary btn--sm">Cotizar</a>
-              </div>
-            </div>
-          `;
-          grid.appendChild(article);
-        });
-
-        countEl.textContent = productsToRender.length;
-      }
-
-      // Filter functionality
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('filter-btn--active');
-            b.setAttribute('aria-selected', 'false');
-          });
-          btn.classList.add('filter-btn--active');
-          btn.setAttribute('aria-selected', 'true');
-
-          const filter = btn.dataset.filter;
-          filteredProducts = filter === 'all' ? [...allProducts] : allProducts.filter(p => p.category.toLowerCase() === filter);
-          renderProducts(filteredProducts);
-        });
-      });
-
-      // Sort functionality
-      document.getElementById('sort-select').addEventListener('change', (e) => {
-        let sorted = [...filteredProducts];
-        switch (e.target.value) {
-          case 'price-asc':
-            sorted.sort((a, b) => a.price - b.price);
-            break;
-          case 'price-desc':
-            sorted.sort((a, b) => b.price - a.price);
-            break;
-          case 'name':
-            sorted.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        }
-        renderProducts(sorted);
-      });
-
-      // Pagination
-      let currentPage = 1;
-      const itemsPerPage = 9; // 3x3 grid
-
-      function renderPagination(productsToPaginate) {
-        const totalPages = Math.ceil(productsToPaginate.length / itemsPerPage);
-        let paginationHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-          paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
-        }
-        document.getElementById('pagination').innerHTML = paginationHTML;
-      }
-
-      // Pagination event listeners
-      document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('pagination-btn')) {
-          currentPage = parseInt(e.target.dataset.page);
-          renderProducts(filteredProducts.slice((currentPage-1)*itemsPerPage, currentPage*itemsPerPage));
-          renderPagination(filteredProducts);
-        }
-      });
-
-      // Initial render
-      document.addEventListener('DOMContentLoaded', () => {
-        renderProducts(allProducts.slice(0, itemsPerPage));
-        renderPagination(allProducts);
-      });
-    </script> 
 </body>
 </html>
