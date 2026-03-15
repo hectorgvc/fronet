@@ -157,12 +157,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 220px;
+  flex: 0 0 45%;
+  max-width: 480px;
 }
 
 .financing-banner__bank-img {
-  width: 220px;
+  width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
   display: block;
@@ -176,12 +176,14 @@
   }
 
   .financing-banner__partner {
-    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
     justify-content: center;
   }
 
   .financing-banner__bank-img {
-    width: 260px;
+    max-width: 420px;
+    width: 100%;
   }
 }
 
