@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Tienda | Fronet Tecnología SRL</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/pages/admin.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+  <!-- ============================================
+       LOGIN SCREEN
+       ============================================ -->
+  <div class="admin-login" id="adminLogin">
+    <div class="admin-login__card">
+      <img src="assets/img/logo-fronet.png" alt="Logo Fronet" />
+      <h1>Panel de Administración</h1>
+      <p>Ingresa la contraseña para gestionar los productos de la tienda.</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="Ingresa la contraseña" autocomplete="current-password" required />
+        </div>
+        <p class="admin-login__error" id="loginError"></p>
+        <button type="submit" class="btn--admin btn--admin-primary" style="width:100%;">
+          <i data-lucide="lock" class="icon-16"></i>
+          Ingresar
+        </button>
+      </form>
+      <p style="font-size:.75rem;color:var(--gray-400);margin-top:1.5rem;">
+        Acceso restringido — Solo personal autorizado
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================
+       ADMIN WRAPPER
+       ============================================ -->
+  <div class="admin-wrapper" id="adminWrapper">
+
+    <!-- Top Bar -->
+    <div class="admin-topbar">
+      <div class="container">
+        <div class="admin-topbar__left">
+          <img src="assets/img/logo-fronet.png" alt="Fronet" />
+          <h1>Gestión de Productos</h1>
+          <span class="admin-badge">Admin</span>
+        </div>
+        <div class="admin-topbar__right">
+          <button class="btn--admin btn--admin-outline btn--admin-sm" id="btnVerTienda">
+            <i data-lucide="external-link" class="icon-16"></i>
+            Ver Tienda
+          </button>
+          <button class="btn--admin btn--admin-outline btn--admin-sm" id="btnLogout">
+            <i data-lucide="log-out" class="icon-16"></i>
+            Salir
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-content">
+      <div class="container">
+
+        <!-- Header -->
+        <div class="admin-header">
+          <h2>Productos</h2>
+          <div class="admin-header__actions">
+            <button class="btn--admin btn--admin-primary" id="btnNuevoProducto">
+              <i data-lucide="plus" class="icon-16"></i>
+              Nuevo Producto
+            </button>
+            <button class="btn--admin btn--admin-outline btn--admin-sm" id="btnExportar">
+              <i data-lucide="download" class="icon-16"></i>
+              Exportar
+            </button>
+            <button class="btn--admin btn--admin-outline btn--admin-sm" id="btnImportar">
+              <i data-lucide="upload" class="icon-16"></i>
+              Importar
+            </button>
+            <button class="btn--admin btn--admin-danger btn--admin-sm" id="btnLimpiarDatos">
+              <i data-lucide="trash" class="icon-16"></i>
+              Limpiar Locales
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <div class="admin-stat__label">Total Productos</div>
+            <div class="admin-stat__value" id="statTotal">0</div>
+          </div>
+          <div class="admin-stat admin-stat--navy">
+            <div class="admin-stat__label">Activos</div>
+            <div class="admin-stat__value" id="statActivos">0</div>
+          </div>
+          <div class="admin-stat admin-stat--gold">
+            <div class="admin-stat__label">En Oferta</div>
+            <div class="admin-stat__value" id="statOfertas">0</div>
+          </div>
+          <div class="admin-stat admin-stat--green">
+            <div class="admin-stat__label">Categorías</div>
+            <div class="admin-stat__value" id="statCategorias">0</div>
+          </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="admin-toolbar">
+          <div class="admin-toolbar__search">
+            <i data-lucide="search" class="icon-16"></i>
+            <input type="text" id="adminSearch" placeholder="Buscar por nombre, ID, marca..." />
+          </div>
+          <div class="admin-toolbar__filters">
+            <select id="filterCategoria">
+              <option value="all">Todas las categorías</option>
+              <option value="impresoras">Impresoras</option>
+              <option value="computadoras">Computadoras</option>
+              <option value="mobiliario">Mobiliario</option>
+              <option value="consumibles">Consumibles</option>
+            </select>
+            <select id="filterEstado">
+              <option value="all">Todos los estados</option>
+              <option value="active">Activos</option>
+              <option value="inactive">Inactivos</option>
+              <option value="offer">En oferta</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Marca</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Imágenes</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productosTableBody">
+              <tr>
+                <td colspan="7" class="admin-table__empty">
+                  <i data-lucide="loader" class="icon-48"></i>
+                  <p>Cargando productos...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MODAL — CREAR / EDITAR PRODUCTO
+       ============================================ -->
+  <div class="admin-modal-overlay" id="productModal">
+    <div class="admin-modal">
+      <div class="admin-modal__header">
+        <h3 id="modalTitle">Nuevo Producto</h3>
+        <button class="admin-modal__close" id="btnCerrarModal" aria-label="Cerrar">
+          <i data-lucide="x" class="icon-20"></i>
+        </button>
+      </div>
+
+      <div class="admin-modal__body">
+        <!-- ID (readonly) -->
+        <div class="admin-form-group">
+          <label for="prodId">ID del Producto</label>
+          <input type="text" id="prodId" readonly style="background:var(--gray-50);color:var(--gray-400);" />
+          <span class="form-hint">Generado automáticamente</span>
+        </div>
+
+        <!-- Información básica -->
+        <div class="admin-form-section">Información Básica</div>
+
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="prodNombre">Nombre <span class="required">*</span></label>
+            <input type="text" id="prodNombre" placeholder="Ej: Impresora HP LaserJet Pro M404n" />
+            <span class="form-error">El nombre es obligatorio</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="prodMarca">Marca <span class="required">*</span></label>
+            <input type="text" id="prodMarca" placeholder="Ej: HP, Canon, Epson..." />
+            <span class="form-error">La marca es obligatoria</span>
+          </div>
+        </div>
+
+        <div class="admin-form-row admin-form-row--3">
+          <div class="admin-form-group">
+            <label for="prodCategoria">Categoría <span class="required">*</span></label>
+            <select id="prodCategoria">
+              <option value="impresoras">Impresoras & Escanners</option>
+              <option value="computadoras">Computadoras & Tecnología</option>
+              <option value="mobiliario">Mobiliario de Oficina</option>
+              <option value="consumibles">Consumibles & Periféricos</option>
+            </select>
+            <span class="form-error">Selecciona una categoría</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="prodSubcategoria">Subcategoría <span class="required">*</span></label>
+            <select id="prodSubcategoria">
+              <option value="">Seleccionar...</option>
+            </select>
+            <span class="form-error">Selecciona una subcategoría</span>
+          </div>
+          <div class="admin-form-group">
+            <label for="prodMoneda">Moneda</label>
+            <select id="prodMoneda">
+              <option value="RD$">RD$ (Pesos)</option>
+              <option value="US$">US$ (Dólares)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Precios -->
+        <div class="admin-form-section">Precios</div>
+
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label for="prodPrecio">Precio <span class="required">*</span></label>
+            <input type="number" id="prodPrecio" placeholder="0.00" min="0" step="0.01" />
+            <span class="form-error">Ingresa un precio válido</span>
+          </div>
+          <div class="admin-form-group" id="precioOriginalGroup" style="display:none;">
+            <label for="prodPrecioOriginal">Precio Original (antes de oferta) <span class="required">*</span></label>
+            <input type="number" id="prodPrecioOriginal" placeholder="0.00" min="0" step="0.01" />
+            <span class="form-error">Ingresa el precio original</span>
+          </div>
+        </div>
+
+        <!-- Opciones -->
+        <div class="admin-checkbox-row">
+          <label class="admin-checkbox">
+            <input type="checkbox" id="prodDisponible" checked />
+            <span>Disponible</span>
+          </label>
+          <label class="admin-checkbox">
+            <input type="checkbox" id="prodDestacado" />
+            <span>Destacado</span>
+          </label>
+          <label class="admin-checkbox">
+            <input type="checkbox" id="prodOferta" />
+            <span>En Oferta</span>
+          </label>
+        </div>
+
+        <!-- Descripción -->
+        <div class="admin-form-section">Descripción y Especificaciones</div>
+
+        <div class="admin-form-group">
+          <label for="prodDescripcion">Descripción</label>
+          <textarea id="prodDescripcion" rows="3" placeholder="Descripción breve del producto..."></textarea>
+        </div>
+
+        <div class="admin-form-group">
+          <label>Especificaciones <span class="form-hint" style="display:inline;">(máx. 6, presiona Enter para agregar)</span></label>
+          <div class="admin-specs-input" id="specsContainer">
+            <input type="text" placeholder="Escribir y presionar Enter..." />
+          </div>
+        </div>
+
+        <!-- Imágenes -->
+        <div class="admin-form-section">Imágenes (máx. 3)</div>
+
+        <div class="admin-images">
+          <div class="admin-images__grid">
+            <div class="admin-image-slot" id="imageSlot0">
+              <i data-lucide="image-plus" class="icon-28"></i>
+              <span class="admin-image-slot__label">Imagen 1</span>
+              <span class="admin-image-slot__sublabel">Principal</span>
+            </div>
+            <div class="admin-image-slot" id="imageSlot1">
+              <i data-lucide="image-plus" class="icon-28"></i>
+              <span class="admin-image-slot__label">Imagen 2</span>
+              <span class="admin-image-slot__sublabel">Opcional</span>
+            </div>
+            <div class="admin-image-slot" id="imageSlot2">
+              <i data-lucide="image-plus" class="icon-28"></i>
+              <span class="admin-image-slot__label">Imagen 3</span>
+              <span class="admin-image-slot__sublabel">Opcional</span>
+            </div>
+          </div>
+          <p class="form-hint" style="margin-top:.5rem;">Haz clic para agregar imagen por URL o subir archivo (máx. 2MB)</p>
+        </div>
+
+      </div>
+
+      <div class="admin-modal__footer">
+        <button class="btn--admin btn--admin-outline" id="btnCancelarModal">Cancelar</button>
+        <button class="btn--admin btn--admin-primary" id="btnGuardarProducto">Crear Producto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       CONFIRM DIALOG
+       ============================================ -->
+  <div class="admin-confirm-overlay" id="confirmDialog">
+    <div class="admin-confirm">
+      <i data-lucide="alert-triangle" class="icon-48" style="color:var(--gold);margin-bottom:1rem;"></i>
+      <h4>¿Estás seguro?</h4>
+      <p id="confirmMessage">Esta acción no se puede deshacer.</p>
+      <div class="admin-confirm__actions">
+        <button class="btn--admin btn--admin-outline" id="btnConfirmNo">Cancelar</button>
+        <button class="btn--admin btn--admin-danger" id="btnConfirmSi">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       TOAST CONTAINER
+       ============================================ -->
+  <div class="admin-toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="assets/data/productos.js"></script>
+  <script src="assets/js/admin-tienda.js"></script>
+</body>
+</html>
