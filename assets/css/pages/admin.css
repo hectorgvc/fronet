@@ -388,7 +388,7 @@
   color: var(--navy);
 }
 
-.admin-table__actions button.delete:hover {
+.admin-table__actions button.btn-delete:hover {
   background: #fed7d7;
   color: #e53e3e;
 }

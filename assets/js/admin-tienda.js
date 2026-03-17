@@ -13,6 +13,7 @@
 
   var ADMIN_KEY = 'fronet_admin_auth';
   var PRODUCTOS_KEY = 'fronet_admin_productos';
+  var PRODUCTOS_OCULTOS_KEY = 'fronet_admin_productos_ocultos';
   var ADMIN_PASSWORD = 'fronet2025'; // Contraseña por defecto
 
   /* ═══════════════════════════════════════════
@@ -151,13 +152,49 @@
     }
   }
 
+  function obtenerProductosOcultos() {
+    try {
+      var data = localStorage.getItem(PRODUCTOS_OCULTOS_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function guardarProductosOcultos(ids) {
+    try {
+      localStorage.setItem(PRODUCTOS_OCULTOS_KEY, JSON.stringify(ids));
+    } catch (e) {
+      mostrarToast('Error al guardar productos ocultos', 'error');
+    }
+  }
+
+  function ocultarProducto(productoId) {
+    var ocultos = obtenerProductosOcultos();
+    if (ocultos.indexOf(productoId) === -1) {
+      ocultos.push(productoId);
+      guardarProductosOcultos(ocultos);
+    }
+  }
+
+  function mostrarProducto(productoId) {
+    var ocultos = obtenerProductosOcultos();
+    var index = ocultos.indexOf(productoId);
+    if (index > -1) {
+      ocultos.splice(index, 1);
+      guardarProductosOcultos(ocultos);
+    }
+  }
+
   /**
    * Fusiona productos estáticos (productos.js) con los del localStorage.
    * Los del localStorage tienen prioridad (pueden sobrescribir estáticos por ID).
+   * Filtra los productos que están en la lista de ocultos.
    */
   function obtenerTodosProductos() {
     var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS.slice() : [];
     var locales = obtenerProductosLocales();
+    var ocultos = obtenerProductosOcultos();
 
     // Crear mapa de locales por ID
     var localesMap = {};
@@ -171,14 +208,17 @@
 
     // Primero agregar los locales (tienen prioridad)
     locales.forEach(function (p) {
-      p._source = 'local';
-      resultado.push(p);
-      idsUsados[p.id] = true;
+      // Solo agregar si no está en la lista de ocultos
+      if (ocultos.indexOf(p.id) === -1) {
+        p._source = 'local';
+        resultado.push(p);
+        idsUsados[p.id] = true;
+      }
     });
 
-    // Luego agregar estáticos que no fueron sobrescritos
+    // Luego agregar estáticos que no fueron sobrescritos y no están ocultos
     estaticos.forEach(function (p) {
-      if (!idsUsados[p.id]) {
+      if (!idsUsados[p.id] && ocultos.indexOf(p.id) === -1) {
         p._source = 'static';
         resultado.push(p);
       }
@@ -211,15 +251,50 @@
     guardarProductosLocales(locales);
   }
 
-  function eliminarProducto(productoId) {
+function eliminarProducto(productoId) {
     var locales = obtenerProductosLocales();
-    locales = locales.filter(function (p) { return p.id !== productoId; });
-    guardarProductosLocales(locales);
+    var ocultos = obtenerProductosOcultos();
+    
+    // Si es producto estático, ocultarlo
+    if (esProductoEstatico(productoId)) {
+      if (ocultos.indexOf(productoId) === -1) {
+        ocultos.push(productoId);
+        guardarProductosOcultos(ocultos);
+      }
+      mostrarToast('Producto estático ocultado (reaparecerá con "Mostrar")', 'success');
+    } else {
+      // Producto local, eliminarlo
+      locales = locales.filter(function (p) { return p.id !== productoId; });
+      guardarProductosLocales(locales);
+      mostrarToast('Producto eliminado permanentemente', 'success');
+    }
   }
 
-  function esProductoEstatico(productoId) {
+function esProductoEstatico(productoId) {
     var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS : [];
     return estaticos.some(function (p) { return p.id === productoId; });
+  }
+
+  function ocultarTodosProductos() {
+    var todos = obtenerTodosProductos();
+    var ocultos = todos.map(function(p) { return p.id; });
+    guardarProductosOcultos(ocultos);
+    mostrarToast('TODOS los productos ocultados (' + todos.length + ' items)', 'success');
+    cargarDatos();
+  }
+
+  function resetearTiendaCompleta() {
+    if (confirm('¿RESET COMPLETO? Se ocultarán TODOS los productos y se limpiará localStorage. Acción irreversible.')) {
+      try {
+        localStorage.removeItem(PRODUCTOS_KEY);
+        localStorage.removeItem(PRODUCTOS_OCULTOS_KEY);
+        localStorage.removeItem(ADMIN_KEY);
+        mostrarToast('Tienda reseteada completamente', 'success');
+        location.reload();
+      } catch (e) {
+        mostrarToast('Error al resetear (bloqueador localStorage?)', 'error');
+      }
+    }
   }
 
 
@@ -310,6 +385,11 @@
 
       // Imágenes preview
       var imagesHTML = '<div class="admin-table__images">';
+
+      // Debug: log producto data
+      if (typeof console !== 'undefined') {
+        console.log('Renderizando producto:', producto.id, producto.nombre);
+      }
       if (producto.imagenes && producto.imagenes.length > 0) {
         imagesHTML += '<img src="' + escapeHTML(producto.imagenes[0]) + '" alt="" onerror="this.src=\'assets/img/productos/placeholder-impresora.jpg\'">';
         if (producto.imagenes.length > 1) {
@@ -346,7 +426,7 @@
             '<div class="admin-table__actions">' +
               '<button class="btn-edit" data-id="' + escapeHTML(producto.id) + '" title="Editar">' + lucideIcon('pencil', 'icon-16') + '</button>' +
               '<button class="btn-duplicate" data-id="' + escapeHTML(producto.id) + '" title="Duplicar">' + lucideIcon('copy', 'icon-16') + '</button>' +
-              '<button class="delete btn-delete" data-id="' + escapeHTML(producto.id) + '" title="Eliminar">' + lucideIcon('trash-2', 'icon-16') + '</button>' +
+              '<button class="btn-delete" data-id="' + escapeHTML(producto.id) + '" title="Eliminar">' + lucideIcon('trash-2', 'icon-16') + '</button>' +
             '</div>' +
           '</td>' +
         '</tr>';
@@ -1112,7 +1192,7 @@
       btnLimpiar.addEventListener('click', limpiarDatosLocales);
     }
 
-    // Confirm dialog buttons
+// Confirm dialog buttons
     var btnConfirmSi = document.getElementById('btnConfirmSi');
     if (btnConfirmSi) {
       btnConfirmSi.addEventListener('click', function () {
@@ -1125,6 +1205,13 @@
         }
       });
     }
+
+    // Nuevo botón reset completo
+    window.confirmarResetCompleto = function() {
+      if (confirm('¿RESET COMPLETO DE LA TIENDA?\n\nEsto:\n• Ocultará TODOS los productos estáticos\n• Eliminará TODOS los productos locales\n• Limpiará autenticación admin\n\n¿Continuar?')) {
+        resetearTiendaCompleta();
+      }
+    };
 
     var btnConfirmNo = document.getElementById('btnConfirmNo');
     if (btnConfirmNo) {
