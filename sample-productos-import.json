@@ -1,0 +1,36 @@
+[
+  {
+    "id": "IMP-999",
+    "nombre": "Impresora de Ejemplo para Import",
+    "categoria": "impresoras",
+    "subcategoria": "laser",
+    "marca": "EjemploCorp",
+    "precio": 15000,
+    "moneda": "RD$",
+    "imagen": "https://example.com/img/ejemplo.jpg",
+    "imagenes": ["https://example.com/img/ejemplo.jpg"],
+    "descripcion": "Producto de prueba para función IMPORT del admin.",
+    "specs": ["Alta calidad", "Fácil uso", "Económica"],
+    "disponible": true,
+    "destacado": true,
+    "oferta": true,
+    "precio_original": 18000
+  },
+  {
+    "id": "CON-999",
+    "nombre": "Tóner Ejemplo Negro",
+    "categoria": "consumibles",
+    "subcategoria": "toner",
+    "marca": "EjemploCorp",
+    "precio": 2500,
+    "moneda": "RD$",
+    "imagen": "assets/img/productos/placeholder-toner.jpg",
+    "imagenes": ["assets/img/productos/placeholder-toner.jpg"],
+    "descripcion": "Cartucho compatible para impresoras láser de prueba.",
+    "specs": ["5000 páginas", "Compatible genérico", "Negro"],
+    "disponible": true,
+    "destacado": false,
+    "oferta": false,
+    "precio_original": null
+  }
+]
