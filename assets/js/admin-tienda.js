@@ -609,14 +609,17 @@ function esProductoEstatico(productoId) {
      MÓDULO 5 — SUBCATEGORÍAS DINÁMICAS
      ═══════════════════════════════════════════ */
 
-  function actualizarSubcategorias(categoria) {
+function actualizarSubcategorias(categoria) {
     var select = document.getElementById('prodSubcategoria');
     if (!select) return;
 
     select.innerHTML = '<option value="">Seleccionar...</option>';
 
-    if (typeof CATEGORIA_CONFIG !== 'undefined' && CATEGORIA_CONFIG[categoria]) {
-      var subcats = CATEGORIA_CONFIG[categoria].subcategorias;
+    // Global fallback
+    var config = (typeof window.CATEGORIA_CONFIG !== 'undefined') ? window.CATEGORIA_CONFIG : CATEGORIA_CONFIG;
+    
+    if (config && config[categoria]) {
+      var subcats = config[categoria].subcategorias || [];
       subcats.forEach(function (sub) {
         if (sub.valor !== 'all') {
           var opt = document.createElement('option');
@@ -624,6 +627,14 @@ function esProductoEstatico(productoId) {
           opt.textContent = sub.etiqueta;
           select.appendChild(opt);
         }
+      });
+    } else {
+      // Fallback básico si no hay config
+      ['laser', 'tinta', 'continuo', 'scanner'].forEach(function(val) {
+        var opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val.charAt(0).toUpperCase() + val.slice(1);
+        select.appendChild(opt);
       });
     }
   }

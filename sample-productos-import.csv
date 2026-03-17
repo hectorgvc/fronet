@@ -1,0 +1,4 @@
+id,nombre,categoria,subcategoria,marca,precio,moneda,imagen,descripcion,disponible,oferta
+IMP-001,Impresora HP LaserJet Pro M404n,impresoras,laser,HP,18500,RD$,assets/img/productos/placeholder-impresora.jpg,Impresora láser monocromática de alta velocidad.,true,false
+IMP-002,Impresora Epson EcoTank L3250,impresoras,continuo,Epson,12800,RD$,assets/img/productos/placeholder-impresora.jpg,Sistema de tinta continua, imprime hasta 4,500 páginas,true,true
+MOB-001,Silla Ergonómica Ejecutiva,mobiliario,silla,Genérico,8500,RD$,assets/img/productos/placeholder-silla.jpg,Silla de oficina ergonómica,true,false
