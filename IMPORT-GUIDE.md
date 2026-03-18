@@ -29,7 +29,7 @@ IMP-001,"Impresora HP LaserJet Pro","impresoras","laser","HP",18500,"RD$","asset
 ```
 
 ## 🚀 CÓMO IMPORTAR
-1. **Admin** → `admin-tienda.html` → login `fronet2025`
+1. **Admin** → `admin-tienda.html` → login `fronet2026`
 2. **Botón "Importar"** 📤 → Selecciona CSV/Excel
 3. ✅ Productos cargados → Tabla actualizada
 
