@@ -795,12 +795,7 @@
     var msgEl = document.getElementById('confirmMessage');
 
     if (msgEl) {
-      var esEstatico = esProductoEstatico(productoId);
-      if (esEstatico) {
-        msgEl.textContent = 'Este producto es estático (viene del código). Solo se eliminará la versión local editada. ¿Continuar?';
-      } else {
-        msgEl.textContent = '¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.';
-      }
+      msgEl.textContent = '¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.';
     }
 
     if (overlay) overlay.classList.add('open');
@@ -906,9 +901,9 @@
             return;
           }
 
-          // Validar estructura mínima
+          // Validar estructura mínima (al menos nombre y categoría, ID es opcional)
           var validos = data.filter(function (p) {
-            return p.id && p.nombre && p.categoria;
+            return p.nombre && p.categoria;
           });
 
           if (validos.length === 0) {
@@ -916,19 +911,51 @@
             return;
           }
 
-          // Asegurar retrocompatibilidad
+          // Asegurar campos con defaults para cada producto
+          var idsUsados = {};
           validos.forEach(function (p) {
+            // ID auto-generado si falta
+            if (!p.id) {
+              p.id = generarId(p.categoria);
+            }
+            // Evitar IDs duplicados
+            while (idsUsados[p.id]) {
+              var parts = p.id.split('-');
+              var num = parseInt(parts[1] || '0', 10) + 1;
+              p.id = parts[0] + '-' + String(num).padStart(3, '0');
+            }
+            idsUsados[p.id] = true;
+
+            // Defaults para campos faltantes
+            if (typeof p.disponible === 'undefined') p.disponible = true;
+            if (!p.moneda) p.moneda = 'RD$';
+            if (!p.precio) p.precio = 0;
+            if (!p.marca) p.marca = 'Sin marca';
+            if (!p.subcategoria) p.subcategoria = 'accesorio';
+            if (!p.descripcion) p.descripcion = '';
+            if (!p.specs) p.specs = [];
+            if (typeof p.oferta === 'undefined') p.oferta = false;
+            if (typeof p.destacado === 'undefined') p.destacado = false;
+            if (!p.precio_original) p.precio_original = null;
+
+            // Retrocompatibilidad de imágenes
             if (!p.imagenes && p.imagen) {
               p.imagenes = [p.imagen];
             }
             if (p.imagenes && p.imagenes.length > 0 && !p.imagen) {
               p.imagen = p.imagenes[0];
             }
+            if (!p.imagen) {
+              p.imagen = 'assets/img/productos/placeholder-impresora.jpg';
+            }
+            if (!p.imagenes || p.imagenes.length === 0) {
+              p.imagenes = [p.imagen];
+            }
           });
 
           guardarProductosLocales(validos);
           cargarDatos();
-          mostrarToast('Importados ' + validos.length + ' productos', 'success');
+          mostrarToast('✅ Importados ' + validos.length + ' productos exitosamente', 'success');
         } catch (err) {
           mostrarToast('Error al leer el archivo JSON: ' + err.message, 'error');
         }
@@ -940,7 +967,7 @@
   }
 
   function limpiarDatosLocales() {
-    confirmarAccion('¿Eliminar todos los productos locales? Los productos estáticos del código se mantendrán.', function () {
+    confirmarAccion('¿Eliminar todos los productos? La tienda quedará vacía.', function () {
       guardarProductosLocales([]);
       cargarDatos();
       mostrarToast('Datos locales eliminados', 'success');
@@ -956,6 +983,44 @@
     if (msgEl) msgEl.textContent = mensaje;
     if (overlay) overlay.classList.add('open');
   }
+
+
+  /* ═══════════════════════════════════════════
+     MÓDULO 11b — RESET COMPLETO & OCULTAR TODOS
+     ═══════════════════════════════════════════ */
+
+  /**
+   * Limpia TODOS los productos del localStorage.
+   * Esto deja la tienda vacía (ya que no hay productos estáticos).
+   */
+  window.confirmarResetCompleto = function () {
+    confirmarAccion(
+      '⚠️ RESET COMPLETO: Esto eliminará TODOS los productos del sistema. La tienda quedará vacía. ¿Estás seguro?',
+      function () {
+        guardarProductosLocales([]);
+        cargarDatos();
+        mostrarToast('Reset completo realizado. Todos los productos eliminados.', 'success');
+      }
+    );
+  };
+
+  /**
+   * Marca TODOS los productos como no disponibles (ocultos de la tienda pública)
+   */
+  window.ocultarTodosProductos = function () {
+    confirmarAccion(
+      '¿Ocultar TODOS los productos? No aparecerán en la tienda pública pero seguirán en el admin.',
+      function () {
+        var locales = obtenerProductosLocales();
+        locales.forEach(function (p) {
+          p.disponible = false;
+        });
+        guardarProductosLocales(locales);
+        cargarDatos();
+        mostrarToast('Todos los productos ocultados', 'success');
+      }
+    );
+  };
 
 
   /* ═══════════════════════════════════════════

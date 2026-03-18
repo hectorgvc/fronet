@@ -14,6 +14,47 @@
   'use strict';
 
   /* ═══════════════════════════════════════════
+     HELPER — OBTENER TODOS LOS PRODUCTOS
+     (localStorage + estáticos)
+     ═══════════════════════════════════════════ */
+
+  var PRODUCTOS_KEY = 'fronet_admin_productos';
+
+  /**
+   * Obtiene todos los productos fusionando los del localStorage
+   * (gestionados por el admin) con los estáticos de productos.js.
+   * Los del localStorage tienen prioridad sobre los estáticos.
+   */
+  function obtenerTodosProductos() {
+    var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS.slice() : [];
+    var locales = [];
+    try {
+      var data = localStorage.getItem(PRODUCTOS_KEY);
+      locales = data ? JSON.parse(data) : [];
+    } catch (e) {
+      locales = [];
+    }
+
+    // Si hay productos locales, fusionar
+    if (locales.length > 0) {
+      var idsLocales = {};
+      locales.forEach(function (p) { idsLocales[p.id] = true; });
+
+      // Los locales van primero, luego los estáticos que no estén en locales
+      var resultado = locales.slice();
+      estaticos.forEach(function (p) {
+        if (!idsLocales[p.id]) {
+          resultado.push(p);
+        }
+      });
+      return resultado;
+    }
+
+    // Si no hay locales, usar solo los estáticos
+    return estaticos;
+  }
+
+  /* ═══════════════════════════════════════════
      HELPER — LUCIDE ICONS
      ═══════════════════════════════════════════ */
 
@@ -45,8 +86,9 @@
     var countEl = document.getElementById('count-' + categoria);
     if (!grid) return;
 
-    // Filtrar productos
-    var productos = PRODUCTOS.filter(function (p) {
+    // Filtrar productos (desde localStorage + estáticos)
+    var todosProductos = obtenerTodosProductos();
+    var productos = todosProductos.filter(function (p) {
       if (p.categoria !== categoria) return false;
       if (!p.disponible) return false;
       if (filtro !== 'all' && p.subcategoria !== filtro) return false;
@@ -230,7 +272,7 @@
 
   function buscarProductos(query) {
     var q = query.toLowerCase();
-    return PRODUCTOS.filter(function (p) {
+    return obtenerTodosProductos().filter(function (p) {
       if (!p.disponible) return false;
       var campos = [
         p.nombre,
@@ -283,7 +325,7 @@
     var card = document.querySelector('.product-card[data-id="' + productoId + '"]');
     if (!card) {
       // El producto puede estar filtrado, mostrar todas las categorías
-      var producto = PRODUCTOS.find(function (p) { return p.id === productoId; });
+      var producto = obtenerTodosProductos().find(function (p) { return p.id === productoId; });
       if (producto) {
         // Resetear filtro de esa categoría
         var filterContainer = document.querySelector('.subcategory-filters[data-categoria="' + producto.categoria + '"]');
@@ -346,7 +388,7 @@
 
   function agregarAlCarrito(productoId, cantidad) {
     cantidad = cantidad || 1;
-    var producto = PRODUCTOS.find(function (p) { return p.id === productoId; });
+    var producto = obtenerTodosProductos().find(function (p) { return p.id === productoId; });
     if (!producto) return;
 
     var carrito = obtenerCarrito();
