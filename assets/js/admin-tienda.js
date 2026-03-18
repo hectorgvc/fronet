@@ -976,6 +976,7 @@
      ═══════════════════════════════════════════ */
 
   document.addEventListener('DOMContentLoaded', function () {
+    console.log('[Admin] JS cargado correctamente. Versión: 2026');
 
     // Login
     initLogin();
