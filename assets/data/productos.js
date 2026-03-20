@@ -67,7 +67,9 @@ window.CATEGORIA_CONFIG = {
       { valor: "router", etiqueta: "Routers" },
       { valor: "switch", etiqueta: "Switches" },
       { valor: "ap", etiqueta: "Access Points" },
-      { valor: "cableado", etiqueta: "Cableado" }
+      { valor: "cableado", etiqueta: "Cableado" },
+      { valor: "infraestructura", etiqueta: "Infraestructura" },
+      { valor: "telefonia", etiqueta: "Telefonía IP" }
     ]
   }
 };
