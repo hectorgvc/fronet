@@ -27,7 +27,8 @@ window.CATEGORIA_CONFIG = {
       { valor: "laptop", etiqueta: "Laptops" },
       { valor: "desktop", etiqueta: "Computadoras" },
       { valor: "monitor", etiqueta: "Monitores" },
-      { valor: "servidor", etiqueta: "Servidores" }
+      { valor: "servidor", etiqueta: "Servidores" },
+      { valor: "software", etiqueta: "Software & Licencias" }
     ]
   },
   mobiliario: {
