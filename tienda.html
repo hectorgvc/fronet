@@ -132,6 +132,12 @@
           <a href="#consumibles" class="category-nav__item">
             <i data-lucide="mouse" class="icon-18"></i> Consumibles & Periféricos
           </a>
+          <a href="#seguridad" class="category-nav__item">
+            <i data-lucide="shield" class="icon-18"></i> Seguridad & CCTV
+          </a>
+          <a href="#redes" class="category-nav__item">
+            <i data-lucide="server" class="icon-18"></i> Redes
+          </a>
         </div>
       </div>
     </nav>
@@ -294,6 +300,85 @@
 
         <!-- Products Grid -->
         <div class="products-grid" id="grid-consumibles">
+          <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 5: Seguridad & CCTV
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="seguridad">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#D84315">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="shield" class="icon-16"></i> Protección total</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Seguridad & CCTV</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Cámaras, DVRs y accesorios para tu tranquilidad</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-seguridad">0</span> productos</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-camara.png"
+            alt="Cámara de seguridad destacada Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="seguridad">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="camara">Cámaras</button>
+          <button class="filter-pill" data-filter="dvr">DVR / NVR</button>
+          <button class="filter-pill" data-filter="accesorio">Accesorios</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-seguridad">
+          <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 6: Equipos de Redes
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="redes">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#1565C0">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="server" class="icon-16"></i> Conectividad</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Equipos de Redes</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Routers, Switches y más para tu infraestructura</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-redes">0</span> productos</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-router.png"
+            alt="Router destacado Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="redes">
+          <button class="filter-pill active" data-filter="all">Todas</button>
+          <button class="filter-pill" data-filter="router">Routers</button>
+          <button class="filter-pill" data-filter="switch">Switches</button>
+          <button class="filter-pill" data-filter="ap">Access Points</button>
+          <button class="filter-pill" data-filter="cableado">Cableado</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-redes">
           <div class="products-loading">Cargando productos...</div>
         </div>
 

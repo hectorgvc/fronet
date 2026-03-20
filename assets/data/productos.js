@@ -47,6 +47,25 @@ window.CATEGORIA_CONFIG = {
       { valor: "audicular", etiqueta: "Audiculares" },
       { valor: "accesorio", etiqueta: "Accesorios" }
     ]
+  },
+  seguridad: {
+    nombre: "Seguridad & CCTV",
+    subcategorias: [
+      { valor: "all", etiqueta: "Todas" },
+      { valor: "camara", etiqueta: "Cámaras" },
+      { valor: "dvr", etiqueta: "DVR / NVR" },
+      { valor: "accesorio", etiqueta: "Accesorios" }
+    ]
+  },
+  redes: {
+    nombre: "Equipos de Redes",
+    subcategorias: [
+      { valor: "all", etiqueta: "Todas" },
+      { valor: "router", etiqueta: "Routers" },
+      { valor: "switch", etiqueta: "Switches" },
+      { valor: "ap", etiqueta: "Access Points" },
+      { valor: "cableado", etiqueta: "Cableado" }
+    ]
   }
 };
 

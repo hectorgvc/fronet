@@ -42,7 +42,9 @@
       impresoras: 'IMP',
       computadoras: 'COM',
       mobiliario: 'MOB',
-      consumibles: 'CON'
+      consumibles: 'CON',
+      seguridad: 'SEG',
+      redes: 'RED'
     };
     var prefijo = prefijos[categoria] || 'PRD';
     var todos = obtenerTodosProductos();
