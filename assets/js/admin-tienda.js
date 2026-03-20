@@ -1088,17 +1088,32 @@
      MÓDULO 13 — INICIALIZACIÓN
      ═══════════════════════════════════════════ */
 
-  document.addEventListener('DOMContentLoaded', function () {
-    console.log('[Admin] JS cargado correctamente. Versión: 2026');
+  document.addEventListener('DOMContentLoaded', async function () {
+    console.log('[Admin] JS con soporte Supabase cargado.');
+    refreshLucide();
 
-    // Login
+    // Sincronizar subcategorías en el formulario
+    var selectCat = document.getElementById('prodCategoria');
+    if (selectCat) {
+      selectCat.addEventListener('change', function () {
+        actualizarSubcategorias(this.value);
+      });
+    }
+
+    // Inicializar login
     initLogin();
 
-    // Check auth
+    // Si ya hay token de sesión, mostrar admin de una vez
     if (estaAutenticado()) {
-      mostrarAdmin();
+      await mostrarAdmin();
     } else {
       mostrarLogin();
+    }
+
+    // Botón de Migración Manual
+    var btnMigrar = document.getElementById('btnMigrarSupabase');
+    if (btnMigrar) {
+      btnMigrar.addEventListener('click', migrarALocalStorageASupabase);
     }
 
     // Logout button
@@ -1128,6 +1143,8 @@
       btnCancelar.addEventListener('click', cerrarModal);
     }
 
+    // Modal overlay for closing
+    var modalOverlay = document.getElementById('productModal');
     if (modalOverlay) {
       modalOverlay.addEventListener('click', function (e) {
         if (e.target === modalOverlay) cerrarModal();
