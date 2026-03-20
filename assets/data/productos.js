@@ -17,7 +17,8 @@ window.CATEGORIA_CONFIG = {
       { valor: "continuo", etiqueta: "Sistema Continuo" },
       { valor: "scanner", etiqueta: "Escanners" },
       { valor: "multifuncional", etiqueta: "Multifuncionales" },
-      { valor: "copiadora", etiqueta: "Copiadoras" }
+      { valor: "copiadora", etiqueta: "Copiadoras" },
+      { valor: "termica", etiqueta: "Térmicas" }
     ]
   },
   computadoras: {
