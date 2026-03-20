@@ -38,8 +38,8 @@
       <p style="font-size:.75rem;color:var(--gray-400);margin-top:1.5rem;">
         Acceso restringido — Solo personal autorizado
       </p>
-      <button type="button" onclick="localStorage.clear(); location.reload();" style="margin-top:1rem;font-size:.7rem;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;">
-        ¿Problemas para entrar? Limpiar datos del navegador
+      <button type="button" onclick="localStorage.removeItem('fronet_admin_auth'); location.reload();" style="margin-top:1rem;font-size:.7rem;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;">
+        ¿Problemas para entrar? Cerrar sesión forzada
       </button>
     </div>
   </div>
@@ -138,6 +138,8 @@
               <option value="computadoras">Computadoras</option>
               <option value="mobiliario">Mobiliario</option>
               <option value="consumibles">Consumibles</option>
+              <option value="seguridad">Seguridad & CCTV</option>
+              <option value="redes">Equipos de Redes</option>
             </select>
             <select id="filterEstado">
               <option value="all">Todos los estados</option>
@@ -221,6 +223,8 @@
               <option value="computadoras">Computadoras & Tecnología</option>
               <option value="mobiliario">Mobiliario de Oficina</option>
               <option value="consumibles">Consumibles & Periféricos</option>
+              <option value="seguridad">Seguridad & CCTV</option>
+              <option value="redes">Equipos de Redes</option>
             </select>
             <span class="form-error">Selecciona una categoría</span>
           </div>
