@@ -19,39 +19,66 @@
      ═══════════════════════════════════════════ */
 
   var PRODUCTOS_KEY = 'fronet_admin_productos';
+  var _PRODUCTOS_STORAGE = []; // Cache en memoria
 
   /**
-   * Obtiene todos los productos fusionando los del localStorage
-   * (gestionados por el admin) con los estáticos de productos.js.
-   * Los del localStorage tienen prioridad sobre los estáticos.
+   * Carga PRODUCTOS desde Supabase y actualiza la cache.
    */
-  function obtenerTodosProductos() {
+  async function cargarProductosDesdeSupabase() {
+    if (!window.supabaseClient) {
+      _PRODUCTOS_STORAGE = obtenerTodosProductosSync();
+      return _PRODUCTOS_STORAGE;
+    }
+
+    try {
+      const { data, error } = await window.supabaseClient
+        .from('productos')
+        .select('*')
+        .order('id', { ascending: true });
+
+      if (error) throw error;
+
+      _PRODUCTOS_STORAGE = data || [];
+      // Sincronizar con local por si acaso para trabajo offline
+      try {
+        localStorage.setItem(PRODUCTOS_KEY, JSON.stringify(_PRODUCTOS_STORAGE));
+      } catch (e) {}
+      
+      console.log('[Supabase] Catálogo sincronizado:', _PRODUCTOS_STORAGE.length);
+      return _PRODUCTOS_STORAGE;
+    } catch (err) {
+      console.error('[Supabase] Error en fetch:', err);
+      _PRODUCTOS_STORAGE = obtenerTodosProductosSync();
+      return _PRODUCTOS_STORAGE;
+    }
+  }
+
+  function obtenerTodosProductosSync() {
     var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS.slice() : [];
     var locales = [];
     try {
       var data = localStorage.getItem(PRODUCTOS_KEY);
       locales = data ? JSON.parse(data) : [];
-    } catch (e) {
-      locales = [];
-    }
+    } catch (e) { locales = []; }
 
-    // Si hay productos locales, fusionar
-    if (locales.length > 0) {
-      var idsLocales = {};
-      locales.forEach(function (p) { idsLocales[p.id] = true; });
+    var idsLocales = {};
+    locales.forEach(function (p) { idsLocales[p.id] = true; });
 
-      // Los locales van primero, luego los estáticos que no estén en locales
-      var resultado = locales.slice();
-      estaticos.forEach(function (p) {
-        if (!idsLocales[p.id]) {
-          resultado.push(p);
-        }
-      });
-      return resultado;
-    }
+    var resultado = locales.slice();
+    estaticos.forEach(function (p) {
+      if (!idsLocales[p.id]) {
+        resultado.push(p);
+      }
+    });
+    return resultado;
+  }
 
-    // Si no hay locales, usar solo los estáticos
-    return estaticos;
+  /**
+   * Obtiene todos los productos (Fusiona cache con estáticos)
+   */
+  function obtenerTodosProductos() {
+    if (_PRODUCTOS_STORAGE.length > 0) return _PRODUCTOS_STORAGE;
+    return obtenerTodosProductosSync();
   }
 
   /* ═══════════════════════════════════════════
@@ -738,21 +765,26 @@
      MÓDULO 8 — INICIALIZACIÓN
      ═══════════════════════════════════════════ */
 
-  document.addEventListener('DOMContentLoaded', function () {
-    // Renderizar todas las categorías
+  document.addEventListener('DOMContentLoaded', async function () {
+    console.log('[Tienda] Cargando catálogo desde la nube...');
+    
+    // 1. Cargar desde Supabase
+    await cargarProductosDesdeSupabase();
+
+    // 2. Renderizar todas las categorías
     if (typeof CATEGORIA_CONFIG !== 'undefined') {
       Object.keys(CATEGORIA_CONFIG).forEach(function (cat) {
         renderizarProductos(cat);
       });
     }
 
-    // Inicializar módulos
+    // 3. Inicializar módulos
     initFiltros();
     initBuscador();
     initCarrito();
     initCategoryNav();
 
-    // Renderizar todos los íconos Lucide estáticos y dinámicos
+    // 4. Renderizar íconos Lucide
     refreshLucide();
   });
 

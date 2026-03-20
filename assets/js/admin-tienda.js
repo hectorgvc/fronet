@@ -96,12 +96,12 @@
     if (wrapperEl) wrapperEl.classList.remove('active');
   }
 
-  function mostrarAdmin() {
+  async function mostrarAdmin() {
     var loginEl = document.getElementById('adminLogin');
     var wrapperEl = document.getElementById('adminWrapper');
     if (loginEl) loginEl.style.display = 'none';
     if (wrapperEl) wrapperEl.classList.add('active');
-    cargarDatos();
+    await cargarDatos();
   }
 
   function initLogin() {
@@ -131,10 +131,40 @@
     });
   }
 
-
   /* ═══════════════════════════════════════════
-     MÓDULO 2 — GESTIÓN DE DATOS
+     MÓDULO 2 — GESTIÓN DE DATOS (SUPABASE CLOUD)
      ═══════════════════════════════════════════ */
+
+  var _PRODUCTOS_STORAGE = []; // Cache en memoria para evitar llamadas excesivas
+
+  /**
+   * Carga PRODUCTOS desde Supabase y actualiza la cache.
+   */
+  async function cargarProductosDesdeSupabase() {
+    if (!window.supabaseClient) {
+      _PRODUCTOS_STORAGE = obtenerTodosProductosSync();
+      return _PRODUCTOS_STORAGE;
+    }
+
+    try {
+      const { data, error } = await window.supabaseClient
+        .from('productos')
+        .select('*')
+        .order('id', { ascending: true });
+
+      if (error) throw error;
+
+      _PRODUCTOS_STORAGE = data || [];
+      // Sincronizar con local por si acaso para trabajo offline
+      guardarProductosLocales(_PRODUCTOS_STORAGE);
+      console.log('[Supabase] Datos sincronizados:', _PRODUCTOS_STORAGE.length);
+      return _PRODUCTOS_STORAGE;
+    } catch (err) {
+      console.error('[Supabase] Error en fetch:', err);
+      _PRODUCTOS_STORAGE = obtenerTodosProductosSync();
+      return _PRODUCTOS_STORAGE;
+    }
+  }
 
   function obtenerProductosLocales() {
     try {
@@ -148,37 +178,28 @@
   function guardarProductosLocales(productos) {
     try {
       localStorage.setItem(PRODUCTOS_KEY, JSON.stringify(productos));
-    } catch (e) {
-      mostrarToast('Error al guardar en localStorage', 'error');
-    }
+    } catch (e) { /* silent fail */ }
   }
 
   /**
-   * Fusiona productos estáticos (productos.js) con los del localStorage.
-   * Los del localStorage tienen prioridad (pueden sobrescribir estáticos por ID).
+   * Obtiene todos los productos (Fusiona cache con estáticos de productos.js)
    */
   function obtenerTodosProductos() {
+    // Si la cache está vacía, intentamos cargar local mientras tanto
+    var locales = (_PRODUCTOS_STORAGE.length > 0) ? _PRODUCTOS_STORAGE : obtenerProductosLocales();
     var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS.slice() : [];
-    var locales = obtenerProductosLocales();
 
-    // Crear mapa de locales por ID
-    var localesMap = {};
-    locales.forEach(function (p) {
-      localesMap[p.id] = p;
-    });
-
-    // Fusionar: si un producto local tiene el mismo ID que uno estático, usar el local
-    var resultado = [];
     var idsUsados = {};
+    var resultado = [];
 
-    // Primero agregar los locales (tienen prioridad)
+    // Primero los de Supabase/Locales
     locales.forEach(function (p) {
       p._source = 'local';
       resultado.push(p);
       idsUsados[p.id] = true;
     });
 
-    // Luego agregar estáticos que no fueron sobrescritos
+    // Luego los estáticos que no estén repetidos
     estaticos.forEach(function (p) {
       if (!idsUsados[p.id]) {
         p._source = 'static';
@@ -189,39 +210,80 @@
     return resultado;
   }
 
-  function guardarProducto(producto) {
-    var locales = obtenerProductosLocales();
-    var index = -1;
-    for (var i = 0; i < locales.length; i++) {
-      if (locales[i].id === producto.id) {
-        index = i;
-        break;
-      }
-    }
+  function obtenerTodosProductosSync() {
+    return obtenerTodosProductos();
+  }
 
-    // Asegurar retrocompatibilidad: sincronizar imagen con imagenes[0]
+  async function guardarProducto(producto) {
+    // Asegurar retrocompatibilidad: imagen vs imagenes[]
     if (producto.imagenes && producto.imagenes.length > 0) {
       producto.imagen = producto.imagenes[0];
     }
 
+    // 1. Guardar en Supabase
+    if (window.supabaseClient) {
+      try {
+        const { error } = await window.supabaseClient
+          .from('productos')
+          .upsert(producto);
+        if (error) throw error;
+      } catch (e) {
+        console.error('[Supabase] Error al guardar:', e);
+        mostrarToast('Error en la nube, se guardó localmente', 'warning');
+      }
+    }
+
+    // 2. Guardar en local (backup)
+    var locales = obtenerProductosLocales();
+    var index = locales.findIndex(function (p) { return p.id === producto.id; });
     if (index >= 0) {
       locales[index] = producto;
     } else {
       locales.push(producto);
     }
-
+    
     guardarProductosLocales(locales);
+    _PRODUCTOS_STORAGE = locales;
   }
 
-  function eliminarProducto(productoId) {
-    var locales = obtenerProductosLocales();
-    locales = locales.filter(function (p) { return p.id !== productoId; });
+  async function eliminarProducto(productoId) {
+    if (window.supabaseClient) {
+      try {
+        await window.supabaseClient.from('productos').delete().eq('id', productoId);
+      } catch (e) { console.error('Supabase Delete Error:', e); }
+    }
+    var locales = obtenerProductosLocales().filter(function (p) { return p.id !== productoId; });
     guardarProductosLocales(locales);
+    _PRODUCTOS_STORAGE = locales;
   }
 
   function esProductoEstatico(productoId) {
     var estaticos = (typeof PRODUCTOS !== 'undefined') ? PRODUCTOS : [];
     return estaticos.some(function (p) { return p.id === productoId; });
+  }
+
+  async function migrarALocalStorageASupabase() {
+    var locales = obtenerProductosLocales();
+    if (locales.length === 0) {
+      mostrarToast('No hay productos locales para migrar', 'warning');
+      return;
+    }
+
+    mostrarToast('Subiendo ' + locales.length + ' productos a la nube...', 'info');
+
+    try {
+      const { error } = await window.supabaseClient
+        .from('productos')
+        .upsert(locales);
+      
+      if (error) throw error;
+      
+      mostrarToast('✅ Migración completada con éxito!', 'success');
+      await cargarDatos();
+    } catch (e) {
+      console.error('Error en migración:', e);
+      mostrarToast('Error: ' + (e.message || 'No se pudo migrar'), 'error');
+    }
   }
 
 
@@ -231,7 +293,8 @@
 
   var filtroActual = { busqueda: '', categoria: 'all', estado: 'all' };
 
-  function cargarDatos() {
+  async function cargarDatos() {
+    await cargarProductosDesdeSupabase();
     renderizarEstadisticas();
     renderizarTabla();
     refreshLucide();
@@ -721,7 +784,7 @@
     return valido;
   }
 
-  function guardarFormulario() {
+  async function guardarFormulario() {
     if (!validarFormulario()) {
       mostrarToast('Corrige los errores del formulario', 'error');
       return;
@@ -756,9 +819,9 @@
       precio_original: getChecked('prodOferta') ? parseFloat(getVal('prodPrecioOriginal')) || null : null
     };
 
-    guardarProducto(producto);
+    await guardarProducto(producto);
     cerrarModal();
-    cargarDatos();
+    await cargarDatos();
     mostrarToast(esNuevo ? 'Producto creado exitosamente' : 'Producto actualizado exitosamente', 'success');
   }
 
@@ -767,15 +830,9 @@
      MÓDULO 9 — DUPLICAR / ELIMINAR
      ═══════════════════════════════════════════ */
 
-  function duplicarProducto(productoId) {
+  async function duplicarProducto(productoId) {
     var todos = obtenerTodosProductos();
-    var original = null;
-    for (var i = 0; i < todos.length; i++) {
-      if (todos[i].id === productoId) {
-        original = todos[i];
-        break;
-      }
-    }
+    var original = todos.find(function (p) { return p.id === productoId; });
 
     if (!original) return;
 
@@ -784,8 +841,8 @@
     copia.nombre = copia.nombre + ' (copia)';
     delete copia._source;
 
-    guardarProducto(copia);
-    cargarDatos();
+    await guardarProducto(copia);
+    await cargarDatos();
     mostrarToast('Producto duplicado: ' + copia.id, 'success');
   }
 
@@ -803,10 +860,10 @@
     if (overlay) overlay.classList.add('open');
   }
 
-  function ejecutarEliminar() {
+  async function ejecutarEliminar() {
     if (productoAEliminar) {
-      eliminarProducto(productoAEliminar);
-      cargarDatos();
+      await eliminarProducto(productoAEliminar);
+      await cargarDatos();
       mostrarToast('Producto eliminado', 'success');
       productoAEliminar = null;
     }
@@ -895,32 +952,25 @@
       if (!file) return;
 
       var reader = new FileReader();
-      reader.onload = function (e) {
+      reader.onload = async function (e) {
         try {
-          var data = JSON.parse(e.target.result);
-          if (!Array.isArray(data)) {
+          var jsonData = JSON.parse(e.target.result);
+          if (!Array.isArray(jsonData)) {
             mostrarToast('El archivo debe contener un array de productos', 'error');
             return;
           }
 
-          // Validar estructura mínima (al menos nombre y categoría, ID es opcional)
-          var validos = data.filter(function (p) {
-            return p.nombre && p.categoria;
-          });
+          var validos = jsonData.filter(function (p) { return p.nombre && p.categoria; });
 
           if (validos.length === 0) {
             mostrarToast('No se encontraron productos válidos en el archivo', 'error');
             return;
           }
 
-          // Asegurar campos con defaults para cada producto
+          // Asegurar campos con defaults
           var idsUsados = {};
           validos.forEach(function (p) {
-            // ID auto-generado si falta
-            if (!p.id) {
-              p.id = generarId(p.categoria);
-            }
-            // Evitar IDs duplicados
+            if (!p.id) p.id = generarId(p.categoria);
             while (idsUsados[p.id]) {
               var parts = p.id.split('-');
               var num = parseInt(parts[1] || '0', 10) + 1;
@@ -928,38 +978,29 @@
             }
             idsUsados[p.id] = true;
 
-            // Defaults para campos faltantes
             if (typeof p.disponible === 'undefined') p.disponible = true;
             if (!p.moneda) p.moneda = 'RD$';
             if (!p.precio) p.precio = 0;
-            if (!p.marca) p.marca = 'Sin marca';
-            if (!p.subcategoria) p.subcategoria = 'accesorio';
-            if (!p.descripcion) p.descripcion = '';
-            if (!p.specs) p.specs = [];
             if (typeof p.oferta === 'undefined') p.oferta = false;
             if (typeof p.destacado === 'undefined') p.destacado = false;
-            if (!p.precio_original) p.precio_original = null;
-
-            // Retrocompatibilidad de imágenes
-            if (!p.imagenes && p.imagen) {
-              p.imagenes = [p.imagen];
-            }
-            if (p.imagenes && p.imagenes.length > 0 && !p.imagen) {
-              p.imagen = p.imagenes[0];
-            }
-            if (!p.imagen) {
-              p.imagen = 'assets/img/productos/placeholder-impresora.jpg';
-            }
-            if (!p.imagenes || p.imagenes.length === 0) {
-              p.imagenes = [p.imagen];
-            }
+            if (!p.imagenes) p.imagenes = p.imagen ? [p.imagen] : [];
+            if (!p.specs) p.specs = [];
           });
 
+          // 1. Supabase (Massive Upsert)
+          if (window.supabaseClient) {
+            mostrarToast('Subiendo productos a la nube...', 'info');
+            const { error } = await window.supabaseClient.from('productos').upsert(validos);
+            if (error) throw error;
+          }
+
+          // 2. Local
           guardarProductosLocales(validos);
-          cargarDatos();
-          mostrarToast('✅ Importados ' + validos.length + ' productos exitosamente', 'success');
+          await cargarDatos();
+          mostrarToast('✅ Importados y sincronizados ' + validos.length + ' productos', 'success');
         } catch (err) {
-          mostrarToast('Error al leer el archivo JSON: ' + err.message, 'error');
+          console.error(err);
+          mostrarToast('Error al importar: ' + err.message, 'error');
         }
       };
       reader.readAsText(file);
@@ -968,11 +1009,16 @@
     fileInput.click();
   }
 
-  function limpiarDatosLocales() {
-    confirmarAccion('¿Eliminar todos los productos? La tienda quedará vacía.', function () {
+  async function limpiarDatosLocales() {
+    confirmarAccion('¿Eliminar todos los productos de la nube y locales? Esta acción es definitiva.', async function () {
+      if (window.supabaseClient) {
+        // En Supabase, para borrar todo necesitamos un filtro o una política. 
+        // Como no queremos borrar los estáticos, borramos todo lo de la tabla.
+        await window.supabaseClient.from('productos').delete().neq('id', '0'); 
+      }
       guardarProductosLocales([]);
-      cargarDatos();
-      mostrarToast('Datos locales eliminados', 'success');
+      await cargarDatos();
+      mostrarToast('Todos los datos eliminados', 'success');
     });
   }
 
@@ -1082,8 +1128,6 @@
       btnCancelar.addEventListener('click', cerrarModal);
     }
 
-    // Click en overlay del modal para cerrar
-    var modalOverlay = document.getElementById('productModal');
     if (modalOverlay) {
       modalOverlay.addEventListener('click', function (e) {
         if (e.target === modalOverlay) cerrarModal();

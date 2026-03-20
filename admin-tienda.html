@@ -90,6 +90,11 @@
               <i data-lucide="upload" class="icon-16"></i>
               Importar
             </button>
+            <button class="btn--admin btn--admin-primary btn--admin-sm" id="btnMigrarSupabase" style="background:var(--cyan); border-color:var(--cyan);">
+              <i data-lucide="database" class="icon-16"></i>
+              🚀 Migrar a Supabase
+            </button>
+
             <button class="btn--admin btn--admin-danger btn--admin-sm" id="btnOcultarTodo" onclick="ocultarTodosProductos()" title="Oculta TODOS los productos visibles">
               <i data-lucide="eye-off" class="icon-16"></i>
               Ocultar Todos
@@ -337,6 +342,11 @@
   <div class="admin-toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-config.js"></script>
+
+  <!-- Scripts App -->
   <script src="assets/data/productos.js"></script>
   <script src="assets/js/admin-tienda.js"></script>
 </body>
