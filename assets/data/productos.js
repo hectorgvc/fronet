@@ -18,7 +18,8 @@ window.CATEGORIA_CONFIG = {
       { valor: "scanner", etiqueta: "Escanners" },
       { valor: "multifuncional", etiqueta: "Multifuncionales" },
       { valor: "copiadora", etiqueta: "Copiadoras" },
-      { valor: "termica", etiqueta: "Térmicas" }
+      { valor: "termica", etiqueta: "Térmicas" },
+      { valor: "matricial", etiqueta: "Matriciales" }
     ]
   },
   computadoras: {
