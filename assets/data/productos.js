@@ -16,8 +16,8 @@ window.CATEGORIA_CONFIG = {
       { valor: "tinta", etiqueta: "Tinta" },
       { valor: "continuo", etiqueta: "Sistema Continuo" },
       { valor: "scanner", etiqueta: "Escanners" },
-      { valor: "multifuncional", etiqueta: "Multifuncionales" }
-      { valor: "Copiadora", etiqueta: "Copiadoras" }
+      { valor: "multifuncional", etiqueta: "Multifuncionales" },
+      { valor: "copiadora", etiqueta: "Copiadoras" }
     ]
   },
   computadoras: {
@@ -55,4 +55,4 @@ window.CATEGORIA_CONFIG = {
    Los productos reales se cargan desde
    localStorage (gestionados vía admin).
    ============================================ */
-
+window.PRODUCTOS = [];
