@@ -30,6 +30,7 @@ window.CATEGORIA_CONFIG = {
       { valor: "desktop", etiqueta: "Computadoras" },
       { valor: "monitor", etiqueta: "Monitores" },
       { valor: "servidor", etiqueta: "Servidores" },
+      { valor: "disco_duro", etiqueta: "Discos Duros" },
       { valor: "software", etiqueta: "Software & Licencias" }
     ]
   },
