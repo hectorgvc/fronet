@@ -138,6 +138,9 @@
           <a href="#redes" class="category-nav__item">
             <i data-lucide="server" class="icon-18"></i> Redes
           </a>
+          <a href="#servicios" class="category-nav__item">
+            <i data-lucide="wrench" class="icon-18"></i> Servicios
+          </a>
         </div>
       </div>
     </nav>
@@ -386,6 +389,46 @@
         <!-- Products Grid -->
         <div class="products-grid" id="grid-redes">
           <div class="products-loading">Cargando productos...</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         CATEGORÍA 7: Servicios Técnicos
+         ═══════════════════════════════════════ -->
+    <section class="category-section" id="servicios">
+      <div class="container">
+
+        <!-- Category Banner -->
+        <div class="category-banner" style="background:#546e7a">
+          <div class="category-banner__content">
+            <span class="category-banner__tag" style="color:#FFFFFF"><i data-lucide="wrench" class="icon-16"></i> Profesional</span>
+            <h2 class="category-banner__title" style="color:#FFFFFF">Servicios Técnicos</h2>
+            <p class="category-banner__subtitle" style="color:#FFFFFF">Soluciones expertas para tu infraestructura tecnológica</p>
+            <p class="category-banner__count" style="color:#FFFFFF"><span id="count-servicios">0</span> servicios</p>
+          </div>
+          <img
+            class="category-banner__product"
+            src="assets/img/banners/banner-product-service.png"
+            alt="Servicio destacado Fronet"
+            loading="lazy"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
+        <!-- Subcategory Filters -->
+        <div class="subcategory-filters" data-categoria="servicios">
+          <button class="filter-pill active" data-filter="all">Todos</button>
+          <button class="filter-pill" data-filter="soporte">Soporte Técnico</button>
+          <button class="filter-pill" data-filter="instalacion">Instalaciones</button>
+          <button class="filter-pill" data-filter="mantenimiento">Mantenimiento</button>
+          <button class="filter-pill" data-filter="reparacion">Reparaciones</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="grid-servicios">
+          <div class="products-loading">Cargando servicios...</div>
         </div>
 
       </div>

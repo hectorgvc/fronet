@@ -72,6 +72,16 @@ window.CATEGORIA_CONFIG = {
       { valor: "infraestructura", etiqueta: "Infraestructura" },
       { valor: "telefonia", etiqueta: "Telefonía IP" }
     ]
+  },
+  servicios: {
+    nombre: "Servicios Técnicos",
+    subcategorias: [
+      { valor: "all", etiqueta: "Todos" },
+      { valor: "soporte", etiqueta: "Soporte Técnico" },
+      { valor: "instalacion", etiqueta: "Instalaciones" },
+      { valor: "mantenimiento", etiqueta: "Mantenimiento" },
+      { valor: "reparacion", etiqueta: "Reparaciones" }
+    ]
   }
 };
 
